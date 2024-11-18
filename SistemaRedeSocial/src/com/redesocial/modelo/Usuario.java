@@ -25,13 +25,22 @@ public class Usuario {
         this.amigos = new ArrayList<>();
         this.posts = new ArrayList<>();
     }
-//    public void adicionarAmigo(Usuario amigo){
-//        if (amigo != null && !amigos.contains(amigo)) {
-//            amigos.add(amigo);
-//            amigo.adicionarAmigo(this);
-//        }
-//    }
-    
+    public void adicionarAmigo(Usuario amigo){
+        if (amigo != null && !amigos.contains(amigo)) {
+            amigos.add(amigo);
+            amigo.adicionarAmigo(this);
+        }
+    }
+    public void removerAmigo(Usuario amigo){
+        if(amigos.contains(amigo)){
+            amigos.remove(amigo);
+        }
+    }
+    public void adicionarPost(Post post){
+        if(post != null && !posts.contains(post)){
+            posts.add(post);
+        }
+    }
 
     public Integer getId() {
         return id;
