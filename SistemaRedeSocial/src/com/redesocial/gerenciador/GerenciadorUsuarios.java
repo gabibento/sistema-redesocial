@@ -102,6 +102,9 @@ public class GerenciadorUsuarios {
             throw new UsuarioException("Erro ao remover amizade: " + e.getMessage() + e);
         }
     }
+    public List<Usuario> listarUsuarios(){
+        return usuarios;
+    }
 
     private void validarUsuario(Usuario usuario){
         for(Usuario usuario1 : usuarios){
