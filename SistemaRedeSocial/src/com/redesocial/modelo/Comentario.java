@@ -10,11 +10,11 @@ public class Comentario {
     private LocalDateTime dataComentario;
     private Post post;
 
-    public Comentario(Integer id, Usuario autor, String conteudo, LocalDateTime dataComentario, Post post) {
+    public Comentario(Integer id, Usuario autor, String conteudo, Post post) {
         this.id = id;
         this.autor = autor;
         this.conteudo = conteudo;
-        this.dataComentario = dataComentario;
+        this.dataComentario = LocalDateTime.now();
         this.post = post;
     }
 

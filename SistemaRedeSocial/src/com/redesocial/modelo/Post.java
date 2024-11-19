@@ -11,11 +11,11 @@ public class Post {
     private List<Usuario> curtidas;
     private List<Comentario> comentarios;
 
-    public Post(Integer id, Usuario autor, String conteudo, LocalDateTime dataPublicacao, List<Usuario> curtidas, List<Comentario> comentarios) {
+    public Post(Integer id, Usuario autor, String conteudo, List<Usuario> curtidas, List<Comentario> comentarios) {
         this.id = id;
         this.autor = autor;
         this.conteudo = conteudo;
-        this.dataPublicacao = dataPublicacao;
+        this.dataPublicacao = LocalDateTime.now();
         this.curtidas = curtidas;
         this.comentarios = comentarios;
     }

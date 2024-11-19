@@ -16,12 +16,12 @@ public class Usuario {
     private List<Usuario> amigos;
     private List<Post> posts;
 
-    public Usuario(String nome, String username, String email, String senha, LocalDateTime dataCadastro) {
+    public Usuario(String nome, String username, String email, String senha) {
         this.nome = nome;
         this.username = username;
         this.email = email;
         this.senha = senha;
-        this.dataCadastro = dataCadastro;
+        this.dataCadastro = LocalDateTime.now();
         this.amigos = new ArrayList<>();
         this.posts = new ArrayList<>();
     }
@@ -34,6 +34,7 @@ public class Usuario {
     public void removerAmigo(Usuario amigo){
         if(amigos.contains(amigo)){
             amigos.remove(amigo);
+            amigo.removerAmigo(this);
         }
     }
     public void adicionarPost(Post post){
