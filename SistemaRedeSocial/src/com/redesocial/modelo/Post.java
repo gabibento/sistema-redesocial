@@ -1,6 +1,7 @@
 package com.redesocial.modelo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
@@ -11,13 +12,12 @@ public class Post {
     private List<Usuario> curtidas;
     private List<Comentario> comentarios;
 
-    public Post(Integer id, Usuario autor, String conteudo, List<Usuario> curtidas, List<Comentario> comentarios) {
-        this.id = id;
+    public Post(Usuario autor, String conteudo) {
         this.autor = autor;
         this.conteudo = conteudo;
         this.dataPublicacao = LocalDateTime.now();
-        this.curtidas = curtidas;
-        this.comentarios = comentarios;
+        this.curtidas = new ArrayList<>();
+        this.comentarios = new ArrayList<>();
     }
 
     public void adicionarCurtida(Usuario usuario){
