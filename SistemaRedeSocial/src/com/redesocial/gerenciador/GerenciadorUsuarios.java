@@ -7,6 +7,7 @@ import com.redesocial.modelo.Usuario;
 import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GerenciadorUsuarios {
@@ -69,7 +70,7 @@ public class GerenciadorUsuarios {
             validarUsuario(usuario);
 
             for(int i = 0; i < usuarios.size(); i++){
-                if(usuarios.get(i).getId() == usuario.getId()){
+                if(Objects.equals(usuarios.get(i).getId(), usuario.getId())){
                     usuarios.set(i, usuario);
                     return true;
                 }
@@ -94,6 +95,7 @@ public class GerenciadorUsuarios {
       }catch (Exception e){
           throw new UsuarioException("Erro ao adicionar amizade: " + e.getMessage() + e);
       }
+        System.out.println("Amigo adicionado com sucesso!");
     }
     public void removerAmizade(int idUsuario1, int idUsuario2){
         try{
@@ -101,6 +103,7 @@ public class GerenciadorUsuarios {
         }catch (Exception e){
             throw new UsuarioException("Erro ao remover amizade: " + e.getMessage() + e);
         }
+        System.out.println("Amigo removido com sucesso!");
     }
     public List<Usuario> listarUsuarios(){
         return usuarios;
