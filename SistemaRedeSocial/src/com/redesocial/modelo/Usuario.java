@@ -109,16 +109,38 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", dataCadastro=" + dataCadastro +
-                ", amigos=" + amigos +
-                ", posts=" + posts +
-                '}';
+        StringBuilder perfil = new StringBuilder();
+        perfil.append("Perfil do Usuário:\n");
+        perfil.append("=====================================\n");
+        perfil.append("Informações Básicas:\n");
+        perfil.append("ID: ").append(id).append("\n");
+        perfil.append("Nome: ").append(nome).append("\n");
+        perfil.append("Username: ").append(username).append("\n");
+        perfil.append("Email: ").append(email).append("\n");
+        perfil.append("Data de Cadastro: ").append(dataCadastro).append("\n");
+        perfil.append("\n");
+
+        perfil.append("Lista de Amigos:\n");
+        if (amigos == null || amigos.isEmpty()) {
+            perfil.append("Nenhum amigo adicionado.\n");
+        } else {
+            for (Usuario amigo : amigos) {
+                perfil.append("- ").append(amigo.getNome()).append(" (").append(amigo.getUsername()).append(")\n");
+            }
+        }
+        perfil.append("\n");
+
+        perfil.append("Lista de Posts:\n");
+        if (posts == null || posts.isEmpty()) {
+            perfil.append("Nenhum post adicionado.\n");
+        } else {
+            for (Post post : posts) {
+                perfil.append("- ").append(post.toString()).append("\n");
+            }
+        }
+        perfil.append("=====================================\n");
+
+        return perfil.toString();
     }
 
     @Override
