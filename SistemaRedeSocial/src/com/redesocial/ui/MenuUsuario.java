@@ -31,7 +31,7 @@ public class MenuUsuario {
            System.out.println("4. Gerenciar Amizades");
            System.out.println("5. Ver Feed de Notícias");
            System.out.println("6. Logout");
-           int opcao = LerEntrada.lerEntradaInteira("");
+           int opcao = LerEntrada.lerEntradaInteira("Escolha uma opção: ");
 
            switch (opcao){
                case 1 -> criarPost();
@@ -74,7 +74,7 @@ public class MenuUsuario {
 
         boolean ehAmigo = this.usuario.getAmigos().contains(usuario);
 
-        int opcao = LerEntrada.lerEntradaInteira("1. " + (ehAmigo ? "Remover amizade" : "Adicionar Amizade") + "\n2. Voltar");
+        int opcao = LerEntrada.lerEntradaInteira("1. " + (ehAmigo ? "Remover amizade" : "Adicionar Amizade") + "\n2. Voltar \nEscolha uma opção: ");
         if(opcao == 1){
             if(!ehAmigo){
                 gerenciadorUsuarios.adicionarAmizade(this.usuario.getId(), usuario.getId());
@@ -87,7 +87,7 @@ public class MenuUsuario {
         usuarios.forEach(usuario1 -> System.out.println("Nome: " + usuario1.getNome() + " Username: " + usuario1.getUsername()));
     }
     private void gerenciarAmizades(){
-        int opcao = LerEntrada.lerEntradaInteira("1. Adicionar novo amigo \n2. Remover amigo \n3. Voltar");
+        int opcao = LerEntrada.lerEntradaInteira("1. Adicionar novo amigo \n2. Remover amigo \n3. Voltar \nEscolha uma opçãp: ");
          switch (opcao){
              case 1 -> adicionarAmigo();
              case 2 -> removerAmigo();

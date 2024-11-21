@@ -101,9 +101,9 @@ public class GerenciadorPosts {
             throw new ValidacaoException("Conteúdo do post não pode ser vazio");
         }
 
-//        if(!gerenciadorUsuarios.listarUsuarios().contains(post.getAutor())){
-//            throw new ValidacaoException("Autor inválido");
-//        }
+        if(!gerenciadorUsuarios.listarUsuarios().contains(post.getAutor())){
+            throw new ValidacaoException("Autor inválido");
+        }
         if(post.getConteudo().length() > 280){
             throw new ValidacaoException("Limite de caracteres atingido");
         }
