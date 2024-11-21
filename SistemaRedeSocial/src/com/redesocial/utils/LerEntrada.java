@@ -7,7 +7,7 @@ public class LerEntrada {
     public static String lerEntradaString(String mensagem){
         String entrada;
         do{
-            System.out.println(mensagem);
+            System.out.print(mensagem);
             entrada = scanner.nextLine().trim();
 
             if(entrada.isEmpty()){

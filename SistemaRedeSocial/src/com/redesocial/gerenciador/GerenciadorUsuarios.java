@@ -89,10 +89,10 @@ public class GerenciadorUsuarios {
     public void adicionarAmizade(int idUsuario1, int idUsuario2){
       try{
           buscarPorId(idUsuario1).adicionarAmigo(buscarPorId(idUsuario2));
+          System.out.println("Amigo adicionado com sucesso!");
       }catch (Exception e){
           throw new UsuarioException("Erro ao adicionar amizade: " + e.getMessage() + e);
       }
-        System.out.println("Amigo adicionado com sucesso!");
     }
     public void removerAmizade(int idUsuario1, int idUsuario2){
         try{

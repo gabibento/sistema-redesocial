@@ -49,6 +49,7 @@ public class MenuPrincipal {
         try {
             gerenciadorUsuarios.cadastrar(usuario);
             System.out.println("Usuário cadastrado com sucesso!");
+            exibirMenuLogado(usuario);
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
         }
@@ -63,7 +64,7 @@ public class MenuPrincipal {
             }
         }
     }
-    
+
     private void fazerLogin(){
         boolean logado = false;
         while(!logado){
