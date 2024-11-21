@@ -2,6 +2,7 @@ package com.redesocial.gerenciador;
 
 import com.redesocial.exception.UsuarioException;
 import com.redesocial.exception.ValidacaoException;
+import com.redesocial.modelo.Post;
 import com.redesocial.modelo.Usuario;
 
 import java.security.spec.ECField;
@@ -32,14 +33,10 @@ public class GerenciadorUsuarios {
 
     }
     public Usuario buscarPorId(int id){
-        try{
-            return usuarios.stream()
-                    .filter(usuario -> usuario.getId() == id)
-                    .findFirst()
-                    .orElse(null);
-        }catch (Exception e){
-            throw new UsuarioException("Erro ao buscar usuário: " + e.getMessage() + e);
-        }
+        return usuarios.stream()
+                .filter(usuario -> usuario.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado"));
     }
     public Usuario buscarPorUsername(String username){
         try{
@@ -124,6 +121,9 @@ public class GerenciadorUsuarios {
         if(usuario.getNome().isEmpty()){
             throw new ValidacaoException("O nome não pode ser vazio");
         }
+    }
+    public void adicionarPost(Usuario usuario, Post post){
+        usuario.adicionarPost(post);
     }
 
 

@@ -27,9 +27,7 @@ public class Post {
         }
     }
     public void removerCurtida(Usuario usuario){
-        if (curtidas.contains(usuario)) {
-            curtidas.remove(usuario);
-        }
+        curtidas.remove(usuario);
     }
     public void adicionarComentario(Comentario comentario){
         if(!comentarios.contains(comentario)){

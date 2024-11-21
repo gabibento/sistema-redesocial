@@ -5,6 +5,7 @@ import com.redesocial.exception.UsuarioException;
 import com.redesocial.exception.ValidacaoException;
 import com.redesocial.modelo.Comentario;
 import com.redesocial.modelo.Post;
+import com.redesocial.modelo.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,13 @@ public class GerenciadorPosts {
     private List<Post> posts;
     private int proximoId;
     private int idComentario;
-    private GerenciadorUsuarios gerenciadorUsuarios;
+    private final GerenciadorUsuarios gerenciadorUsuarios;
 
-    public GerenciadorPosts(){
+    public GerenciadorPosts(GerenciadorUsuarios gerenciadorUsuarios){
         posts = new ArrayList<>();
         proximoId = 1;
         idComentario = 1;
-        gerenciadorUsuarios = new GerenciadorUsuarios();
+        this.gerenciadorUsuarios = gerenciadorUsuarios;
     }
 
     public void criar(Post post){
@@ -57,15 +58,24 @@ public class GerenciadorPosts {
         }
     }
     public void curtir(int idPost, int idUsuario){
-       try{
-           buscarPorId(idPost).adicionarCurtida(gerenciadorUsuarios.buscarPorId(idUsuario));
-       }catch (Exception e){
-           throw new PostException("Erro ao curtir post: " + e.getMessage() + e);
-       }
+           Post post = buscarPorId(idPost);
+           Usuario usuario = gerenciadorUsuarios.buscarPorId(idUsuario);
+
+           if (post != null && usuario != null) {
+               post.adicionarCurtida(usuario);
+               System.out.println("Post curtido com sucesso!");
+           }else{
+               throw new PostException("Erro ao curtir post: usuário ou post inválido");
+           }
     }
     public void descurtir(int idPost, int idUsuario){
         try{
-            buscarPorId(idPost).removerCurtida(gerenciadorUsuarios.buscarPorId(idUsuario));
+            Post post = buscarPorId(idPost);
+            Usuario usuario = gerenciadorUsuarios.buscarPorId(idUsuario);
+            if (post != null && usuario != null) {
+                post.removerCurtida(usuario);
+                System.out.println("Post descurtido com sucesso!");
+            }
         }catch (Exception e){
             throw new PostException("Erro ao descurtir post: " + e.getMessage() + e);
         }
@@ -91,9 +101,9 @@ public class GerenciadorPosts {
             throw new ValidacaoException("Conteúdo do post não pode ser vazio");
         }
 
-        if(!gerenciadorUsuarios.listarUsuarios().contains(post.getAutor())){
-            throw new ValidacaoException("Autor inválido");
-        }
+//        if(!gerenciadorUsuarios.listarUsuarios().contains(post.getAutor())){
+//            throw new ValidacaoException("Autor inválido");
+//        }
         if(post.getConteudo().length() > 280){
             throw new ValidacaoException("Limite de caracteres atingido");
         }
