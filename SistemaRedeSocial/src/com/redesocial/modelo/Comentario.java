@@ -1,6 +1,7 @@
 package com.redesocial.modelo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Comentario {
 
@@ -10,8 +11,7 @@ public class Comentario {
     private LocalDateTime dataComentario;
     private Post post;
 
-    public Comentario(Integer id, Usuario autor, String conteudo, Post post) {
-        this.id = id;
+    public Comentario(Usuario autor, String conteudo, Post post) {
         this.autor = autor;
         this.conteudo = conteudo;
         this.dataComentario = LocalDateTime.now();
@@ -60,12 +60,9 @@ public class Comentario {
 
     @Override
     public String toString() {
-        return "Comentario{" +
-                "id=" + id +
-                ", autor=" + autor +
-                ", conteudo='" + conteudo + '\'' +
-                ", dataComentario=" + dataComentario +
-                ", post=" + post +
-                '}';
+        return  "ID: " + id + "\n" +
+                "Autor: " + autor.getNome() + " (" + autor.getUsername() + ")\n" +
+                "Conteúdo: " + conteudo + "\n" +
+                "Data do Comentário: " + dataComentario.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n";
     }
 }

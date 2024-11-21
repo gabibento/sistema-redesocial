@@ -2,6 +2,7 @@ package com.redesocial.ui;
 
 import com.redesocial.gerenciador.GerenciadorPosts;
 import com.redesocial.gerenciador.GerenciadorUsuarios;
+import com.redesocial.modelo.Comentario;
 import com.redesocial.modelo.Post;
 import com.redesocial.modelo.Usuario;
 import com.redesocial.utils.LerEntrada;
@@ -61,6 +62,9 @@ public class MenuUsuario {
             }
         }
     }
+    private void verUsuariosConsulta(List<Usuario> usuarios){
+        usuarios.forEach(usuario1 -> System.out.println("Nome: " + usuario1.getNome() + " Username: " + usuario1.getUsername()));
+    }
     private void gerenciarAmizades(){
         int opcao = LerEntrada.lerEntradaInteira("1. Adicionar novo amigo \n2. Remover amigo \n3. Voltar");
          switch (opcao){
@@ -104,12 +108,69 @@ public class MenuUsuario {
             Usuario usuarioBusca = gerenciadorUsuarios.buscarPorUsername(busca);
 
             if(!usuariosBusca.isEmpty()){
-                usuariosBusca.forEach(usuario1 -> System.out.println("Nome: " + usuario1.getNome() + " Username: " + usuario1.getUsername()));
+                verUsuariosConsulta(usuariosBusca);
             }else if(usuarioBusca != null){
                 System.out.println(usuarioBusca);
             }else{
                 System.out.println("Não há usuários com esse nome/username");
             }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void verFeedNoticias(){
+        try{
+            System.out.println("=== Feed de Notícias ===");
+
+            gerenciadorPosts.listarPosts().stream()
+                    .filter(post -> usuario.getAmigos().contains(post.getAutor()))
+                    .toList().forEach(System.out::println);
+
+            System.out.println("Digite o número do post para interagir ou pressione 0 para voltar.");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void interagirPost(int id){
+        System.out.println("=== Detalhes do post ===");
+        Post post = gerenciadorPosts.buscarPorId(id);
+        System.out.println("Autor: " + post.getAutor());
+        System.out.println("Conteúdo: " + post.getConteudo());
+        System.out.println("Curtidas: " + post.getCurtidas().size());
+        System.out.println("Comentários: " + post.getComentarios().size());
+        System.out.println();
+        System.out.println("1. Ver curtidas. \n2. Ver comentários.");
+        boolean estaCurtido = post.getCurtidas().contains(usuario);
+        System.out.println("3. " + (estaCurtido ? "Descurtir." : "Curtir"));
+        System.out.println("4. Comentar \n5. Voltar");
+
+        try{
+            int opcao = LerEntrada.lerEntradaInteira("");
+            switch (opcao){
+                case 1 -> verUsuariosConsulta(post.getCurtidas());
+                case 2 -> listarComentarios(post);
+                case 3 -> {
+                    if (estaCurtido) {
+                        gerenciadorPosts.descurtir(post.getId(), usuario.getId());
+                    } else {
+                        gerenciadorPosts.curtir(post.getId(), usuario.getId());
+                    }
+                }
+                case 4 -> comentar(post);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void listarComentarios(Post post){
+        post.getComentarios().forEach(System.out::println);
+    }
+    private void comentar(Post post){
+        try{
+            String conteudo = LerEntrada.lerEntradaString("Digite o comentário");
+
+            gerenciadorPosts.comentar(new Comentario(usuario, conteudo, post));
+            System.out.println("Comentário adicionado com sucesso!");
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

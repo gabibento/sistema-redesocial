@@ -12,11 +12,13 @@ import java.util.List;
 public class GerenciadorPosts {
     private List<Post> posts;
     private int proximoId;
+    private int idComentario;
     private GerenciadorUsuarios gerenciadorUsuarios;
 
     public GerenciadorPosts(){
         posts = new ArrayList<>();
         proximoId = 1;
+        idComentario = 1;
         gerenciadorUsuarios = new GerenciadorUsuarios();
     }
 
@@ -30,6 +32,9 @@ public class GerenciadorPosts {
         }catch (Exception e){
             throw new UsuarioException("Erro ao criar post: " + e.getMessage() + e);
         }
+    }
+    public List<Post> listarPosts(){
+        return posts;
     }
 
     public Post buscarPorId(int id){
@@ -67,6 +72,7 @@ public class GerenciadorPosts {
     }
     public void comentar(Comentario comentario){
         try{
+            comentario.setId(idComentario++);
             comentario.getPost().adicionarComentario(comentario);
         }catch (Exception e){
             throw new PostException("Erro ao comentar post: " + e.getMessage() + e);
