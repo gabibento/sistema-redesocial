@@ -18,6 +18,10 @@ public class LerEntrada {
 
         return entrada;
     }
+    public static String lerEntradaStringOpcional(String mensagem){
+        System.out.println(mensagem);
+        return scanner.nextLine().trim();
+    }
     public static int lerEntradaInteira(String mensagem) {
         while (true) {
             try {

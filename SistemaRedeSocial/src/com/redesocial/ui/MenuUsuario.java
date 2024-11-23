@@ -87,38 +87,70 @@ public class MenuUsuario {
         usuarios.forEach(usuario1 -> System.out.println("Nome: " + usuario1.getNome() + " Username: " + usuario1.getUsername()));
     }
     private void gerenciarAmizades(){
-        int opcao = LerEntrada.lerEntradaInteira("1. Adicionar novo amigo \n2. Remover amigo \n3. Voltar \nEscolha uma opçãp: ");
-         switch (opcao){
-             case 1 -> adicionarAmigo();
-             case 2 -> removerAmigo();
-         }
+        boolean continuar = true;
+        while(continuar){
+            int opcao = LerEntrada.lerEntradaInteira("1. Adicionar novo amigo \n2. Remover amigo \n3. Voltar \nEscolha uma opção: ");
+            switch (opcao){
+                case 1 -> adicionarAmigo();
+                case 2 -> removerAmigo();
+                case 3 -> continuar = false;
+            }
+        }
     }
     private void adicionarAmigo(){
-        try{
-            String username = LerEntrada.lerEntradaString("Digite o username do usuário a ser adicionado: ");
-            gerenciadorUsuarios.adicionarAmizade(usuario.getId(), gerenciadorUsuarios.buscarPorUsername(username).getId());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        boolean continuar = true;
+        while (continuar){
+            try{
+                String username = LerEntrada.lerEntradaString("Digite o username do usuário a ser adicionado: ");
+                if(username.equals("0")){
+                    continuar = false;
+                }else{
+                    gerenciadorUsuarios.adicionarAmizade(usuario.getId(), gerenciadorUsuarios.buscarPorUsername(username).getId());
+                    continuar = false;
+                }
+
+            }catch (Exception e){
+                System.out.println("Usuário não encontrado. Tente novamente ou digite 0 para voltar");
+            }
         }
     }
     private void removerAmigo(){
-        try{
-            String username = LerEntrada.lerEntradaString("Digite o username do usuário a ser removido: ");
-            gerenciadorUsuarios.removerAmizade(usuario.getId(), gerenciadorUsuarios.buscarPorUsername(username).getId());
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        boolean continuar = true;
+        while(continuar){
+            try{
+                String username = LerEntrada.lerEntradaString("Digite o username do usuário a ser removido: ");
+                if(username.equals("0")){
+                    continuar = false;
+                }else{
+                    gerenciadorUsuarios.removerAmizade(usuario.getId(), gerenciadorUsuarios.buscarPorUsername(username).getId());
+                }
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                System.out.println("Usuário não encontrado. Tente novamente ou digite 0 para voltar");
+            }
         }
     }
     private void editarPerfil(){
-        try{
-            String nome = LerEntrada.lerEntradaString("Digite seu nome: ");
-            String username = LerEntrada.lerEntradaString("Digite seu username: ");
-            String email = LerEntrada.lerEntradaString("Digite seu email");
-            String senha = LerEntrada.lerEntradaString("Digite sua senha");
+        System.out.println("=== Editar Perfil ===");
+        System.out.println("Digite os novos dados (ou pressione ENTER para manter o valor atual):");
+        while(true){
+            try{
+                String nome = LerEntrada.lerEntradaStringOpcional("Nome [" + usuario.getNome() + "]: ");
+                String username = LerEntrada.lerEntradaStringOpcional("Username [" + usuario.getUsername() + "]: ");
+                String email = LerEntrada.lerEntradaStringOpcional("Email [" + usuario.getEmail() + "]: ");
+                String senha = LerEntrada.lerEntradaStringOpcional("Senha [" + usuario.getSenha() + "]: ");
 
-            gerenciadorUsuarios.atualizar(new Usuario(nome, username, email, senha));
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+                if(!nome.isEmpty()) usuario.setNome(nome);
+                if(!username.isEmpty()) usuario.setUsername(username);
+                if(!email.isEmpty()) usuario.setEmail(email);
+                if(!senha.isEmpty()) usuario.setSenha(senha);
+
+                gerenciadorUsuarios.atualizar(usuario);
+                System.out.println("Perfil atualizado com sucesso!");
+                break;
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
     }
     private void buscarUsuarios() {

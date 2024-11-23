@@ -107,8 +107,8 @@ public class GerenciadorUsuarios {
     }
 
     private void validarUsuario(Usuario usuario){
-        for(Usuario usuario1 : usuarios){
-            if(usuario1.getUsername().equals(usuario.getUsername())){
+        for (Usuario usuario1 : usuarios) {
+            if (!usuario1.getId().equals(usuario.getId()) && usuario1.getUsername().equals(usuario.getUsername())) {
                 throw new ValidacaoException("Usuário " + usuario.getUsername() + " já existe");
             }
         }
