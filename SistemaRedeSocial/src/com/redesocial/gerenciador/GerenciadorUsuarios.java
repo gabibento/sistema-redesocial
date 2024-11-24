@@ -5,7 +5,7 @@ import com.redesocial.exception.ValidacaoException;
 import com.redesocial.modelo.Post;
 import com.redesocial.modelo.Usuario;
 
-import java.security.spec.ECField;
+import org.mindrot.jbcrypt.BCrypt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +24,9 @@ public class GerenciadorUsuarios {
         try{
             validarUsuario(usuario);
             usuario.setId(proximoId++);
+            String senhaCriptografada = BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt());
+            usuario.setSenha(senhaCriptografada);
+
             usuarios.add(usuario);
         }catch (ValidacaoException e){
             throw e;

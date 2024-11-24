@@ -8,7 +8,9 @@ import com.redesocial.gerenciador.GerenciadorUsuarios;
 import com.redesocial.modelo.Usuario;
 import com.redesocial.utils.LerEntrada;
 import com.redesocial.utils.Validador;
+import org.mindrot.jbcrypt.BCrypt;
 
+import javax.swing.*;
 import java.util.Optional;
 
 
@@ -43,9 +45,9 @@ public class MenuPrincipal {
         String nome = obterEntradaValida("Digite seu nome: ", this::validarNome);
         String username = obterEntradaValida("Digite seu username: ", this::validarUsername);
         String email = obterEntradaValida("Digite seu email: ", this::validarEmail);
-        String senha = obterEntradaValida("Digite sua senha: ", this::validarSenha);
+        String senha = obterEntradaValidaSenha("Digite sua senha: ", this::validarSenha);
 
-        Usuario usuario = new Usuario(nome, username, email, senha);
+        Usuario usuario = new Usuario(nome, username, email, BCrypt.hashpw(senha, BCrypt.gensalt()));
         try {
             gerenciadorUsuarios.cadastrar(usuario);
             System.out.println("Usuário cadastrado com sucesso!");
@@ -62,6 +64,33 @@ public class MenuPrincipal {
             } catch (ValidacaoException e) {
                 System.out.println("Erro: " + e.getMessage());
             }
+        }
+    }
+
+    private String obterEntradaValidaSenha(String mensagem, Validador<String> validador) {
+        // Usando JPasswordField para exibir * ao digitar a senha
+        JPasswordField passwordField = new JPasswordField(20); // Defina o tamanho do campo
+        Object[] message = {
+                mensagem, passwordField
+        };
+
+        // Mostra o painel de senha
+        int option = JOptionPane.showConfirmDialog(null, message, "Cadastro de Senha", JOptionPane.OK_CANCEL_OPTION);
+
+        // Se o usuário clicar em OK
+        if (option == JOptionPane.OK_OPTION) {
+            char[] senhaArray = passwordField.getPassword(); // Captura a senha digitada
+            String senha = new String(senhaArray); // Converte para String
+
+            try {
+                validador.validar(senha); // Valida a senha
+                return senha;
+            } catch (ValidacaoException e) {
+                System.out.println("Erro: " + e.getMessage());
+                return obterEntradaValidaSenha(mensagem, validador); // Repetir se a senha for inválida
+            }
+        } else {
+            return null; // Se o usuário cancelar
         }
     }
 
@@ -96,8 +125,8 @@ public class MenuPrincipal {
             if(usuarioEncontrado.isEmpty()){
                 throw new AutenticacaoException("Usuário com username " + username + " não existe");
             }
-            if(!usuarioEncontrado.get().getSenha().equals(senha)){
-                throw new AutenticacaoException("Username ou senha inválidos");
+            if (!BCrypt.checkpw(senha, usuarioEncontrado.get().getSenha())) {
+                throw new AutenticacaoException("Senha incorreta");
             }
             return usuarioEncontrado.get();
         }catch (Exception e){

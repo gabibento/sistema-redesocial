@@ -85,7 +85,8 @@ public class Post {
 
     @Override
     public String toString() {
-        return  "Autor: " + autor.getNome() + " (" + autor.getUsername() + ")\n" +
+        return  "ID: " + id + "\n" +
+                "Autor: " + autor.getNome() + " (" + autor.getUsername() + ")\n" +
                 "Conteúdo: " + conteudo + "\n" +
                 "Data de Publicação: " + dataPublicacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n" +
                 "Curtidas: " + (curtidas != null ? curtidas.size() : 0) +
