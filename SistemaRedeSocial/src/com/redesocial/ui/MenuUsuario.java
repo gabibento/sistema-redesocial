@@ -303,16 +303,23 @@ public class MenuUsuario {
       try{
           int id = LerEntrada.lerEntradaInteira("Escolha o id do post a ser excluído: ");
           Post post = gerenciadorPosts.buscarPorId(id);
+
           if(usuario.getPosts().contains(post)){
-              if(gerenciadorPosts.deletar(id)){
-                  usuario.getPosts().remove(post);
-                  System.out.println("Post excluído com sucesso!");
+              int opcao = LerEntrada.lerEntradaInteira("Tem certeza que deseja excluir o post? (1 - Sim / 2 - Não): ");
+              if (opcao == 1) {
+                  if (gerenciadorPosts.deletar(id)) {
+                      usuario.getPosts().remove(post);
+                      System.out.println("Post excluído com sucesso!");
+                  } else {
+                      throw new PostException("Erro ao excluir post");
+                  }
               }else{
-                  throw new PostException("Erro ao excluir post");
+                  System.out.println("Operação cancelada!");
               }
           }else{
               System.out.println("ID inválido");
           }
+
       }catch (Exception e){
           System.out.println(e.getMessage());
       }
