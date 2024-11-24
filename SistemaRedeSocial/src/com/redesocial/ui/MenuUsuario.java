@@ -11,7 +11,7 @@ import com.redesocial.utils.LerEntrada;
 import java.util.List;
 
 public class MenuUsuario {
-    private final Usuario usuario;
+    private Usuario usuario;
     private final GerenciadorPosts gerenciadorPosts;
     private final GerenciadorUsuarios gerenciadorUsuarios;
 
@@ -42,6 +42,9 @@ public class MenuUsuario {
                case 6 -> continuar = false;
                default -> System.out.println("Opção inválida");
            }
+           if(usuario == null){
+               continuar = false;
+           }
        }
     }
     private void criarPost(){
@@ -61,10 +64,11 @@ public class MenuUsuario {
     private void verPerfil(){
         System.out.println("=== Meu Perfil ===");
         System.out.println(usuario);
-        int opcao = LerEntrada.lerEntradaInteira("1. Editar perfil \n2. Voltar \nEscolha uma opção: ");
+        int opcao = LerEntrada.lerEntradaInteira("1. Editar perfil \n2. Excluir conta \n3. Voltar \nEscolha uma opção: ");
 
-        if (opcao == 1) {
-            editarPerfil();
+        switch (opcao){
+            case 1 -> editarPerfil();
+            case 2 -> excluirConta();
         }
 
     }
@@ -265,5 +269,21 @@ public class MenuUsuario {
             System.out.println(e.getMessage());
         }
     }
+    private void excluirConta() {
+        System.out.println("=== Excluir Conta ===");
+        int opcao = LerEntrada.lerEntradaInteira("Tem certeza que deseja excluir sua conta? (1 - Sim / 2 - Não): ");
+        if (opcao == 1) {
+            try {
+                gerenciadorUsuarios.deletar(usuario.getId());
+                usuario = null;
+                System.out.println("Conta excluída com sucesso!");
+            } catch (Exception e) {
+                System.out.println("Erro ao excluir conta: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Operação cancelada.");
+        }
+    }
+
 
 }
