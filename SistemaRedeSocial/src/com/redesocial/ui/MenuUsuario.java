@@ -268,7 +268,7 @@ public class MenuUsuario {
     }
     private void comentar(Post post){
         try{
-            String conteudo = LerEntrada.lerEntradaString("Digite o comentário");
+            String conteudo = LerEntrada.lerEntradaString("Digite o comentário: ");
 
             gerenciadorPosts.comentar(new Comentario(usuario, conteudo, post));
             System.out.println("Comentário adicionado com sucesso!");
@@ -281,9 +281,14 @@ public class MenuUsuario {
         int opcao = LerEntrada.lerEntradaInteira("Tem certeza que deseja excluir sua conta? (1 - Sim / 2 - Não): ");
         if (opcao == 1) {
             try {
-                gerenciadorUsuarios.deletar(usuario.getId());
-                usuario = null;
-                System.out.println("Conta excluída com sucesso!");
+                if(gerenciadorUsuarios.deletar(usuario.getId())){
+                    usuario = null;
+                    System.out.println("Conta excluída com sucesso!");
+                }else{
+                    throw new UsuarioException("Erro ao excluir conta");
+                }
+            } catch(UsuarioException e){
+                System.out.println(e.getMessage());
             } catch (Exception e) {
                 System.out.println("Erro ao excluir conta: " + e.getMessage());
             }
