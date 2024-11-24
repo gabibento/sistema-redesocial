@@ -15,6 +15,7 @@ public class Usuario {
     private String senha;
     private LocalDateTime dataCadastro;
     private List<Usuario> amigos;
+    private List<Usuario> solicitacoesPendentes = new ArrayList<>();
     private List<Post> posts;
 
     public Usuario(String nome, String username, String email, String senha) {
@@ -23,13 +24,15 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.dataCadastro = LocalDateTime.now();
-        this.amigos = new ArrayList<>();
-        this.posts = new ArrayList<>();
+        amigos = new ArrayList<>();
+        solicitacoesPendentes = new ArrayList<>();
+        posts = new ArrayList<>();
     }
     public void adicionarAmigo(Usuario amigo){
         if (amigo != null && !amigos.contains(amigo)) {
             amigos.add(amigo);
-            amigo.adicionarAmigo(this);
+            amigo.getAmigos().add(this); // Adiciona o amigo em ambas as listas
+            removerSolicitacao(amigo);
         }
     }
     public void removerAmigo(Usuario amigo){
@@ -38,6 +41,16 @@ public class Usuario {
             amigo.removerAmigo(this);
         }
     }
+    public void adicionarSolicitacao(Usuario usuario) {
+        if (!solicitacoesPendentes.contains(usuario)) {
+            solicitacoesPendentes.add(usuario);
+        }
+    }
+
+    public void removerSolicitacao(Usuario usuario) {
+        solicitacoesPendentes.remove(usuario);
+    }
+
     public void adicionarPost(Post post){
         if(post != null && !posts.contains(post)){
             posts.add(post);
@@ -106,6 +119,14 @@ public class Usuario {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public List<Usuario> getSolicitacoesPendentes() {
+        return solicitacoesPendentes;
+    }
+
+    public void setSolicitacoesPendentes(List<Usuario> solicitacoesPendentes) {
+        this.solicitacoesPendentes = solicitacoesPendentes;
     }
 
     @Override

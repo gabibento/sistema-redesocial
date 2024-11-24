@@ -89,13 +89,28 @@ public class GerenciadorUsuarios {
             throw new UsuarioException("Erro ao deletar usuário: " + e.getMessage() + e);
         }
     }
-    public void adicionarAmizade(int idUsuario1, int idUsuario2){
-      try{
-          buscarPorId(idUsuario1).adicionarAmigo(buscarPorId(idUsuario2));
-          System.out.println("Amigo adicionado com sucesso!");
-      }catch (Exception e){
-          throw new UsuarioException("Erro ao adicionar amizade: " + e.getMessage() + e);
-      }
+
+
+    public void enviarSolicitacaoAmizade(int idRemetente, int idDestinatario) {
+        Usuario remetente = buscarPorId(idRemetente);
+        Usuario destinatario = buscarPorId(idDestinatario);
+
+        if (destinatario.getSolicitacoesPendentes().contains(remetente)) {
+            throw new UsuarioException("Você já enviou uma solicitação para este usuário.");
+        }
+        destinatario.adicionarSolicitacao(remetente);
+        System.out.println("Solicitação enviada para " + destinatario.getUsername());
+    }
+
+    public void adicionarAmizade(int idUsuario1, int idUsuario2) {
+        Usuario usuario = buscarPorId(idUsuario1);
+        Usuario remetente = buscarPorId(idUsuario2);
+
+        if (!usuario.getSolicitacoesPendentes().contains(remetente)) {
+            throw new UsuarioException("Solicitação de amizade não encontrada.");
+        }
+        usuario.adicionarAmigo(remetente);
+        System.out.println("Agora você é amigo de " + remetente.getUsername());
     }
     public void removerAmizade(int idUsuario1, int idUsuario2){
         try{
@@ -107,6 +122,17 @@ public class GerenciadorUsuarios {
     }
     public List<Usuario> listarUsuarios(){
         return usuarios;
+    }
+
+    public void recusarSolicitacaoAmizade(int idUsuario, int idRemetente) {
+        Usuario usuario = buscarPorId(idUsuario);
+        Usuario remetente = buscarPorId(idRemetente);
+
+        if (!usuario.getSolicitacoesPendentes().contains(remetente)) {
+            throw new UsuarioException("Solicitação de amizade não encontrada.");
+        }
+        usuario.removerSolicitacao(remetente);
+        System.out.println("Você recusou a solicitação de amizade de " + remetente.getUsername());
     }
 
     private void validarUsuario(Usuario usuario){

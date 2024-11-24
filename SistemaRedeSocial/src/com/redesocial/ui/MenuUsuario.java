@@ -33,7 +33,7 @@ public class MenuUsuario {
            System.out.println("3. Buscar Usuários");
            System.out.println("4. Gerenciar Amizades");
            System.out.println("5. Ver Feed de Notícias");
-           System.out.println("6. Ver posts por usuário");
+           System.out.println("6. Ver Posts por Usuário");
            System.out.println("7. Logout");
            int opcao = LerEntrada.lerEntradaInteira(CoresConsole.info("Escolha uma opção: "));
 
@@ -87,10 +87,10 @@ public class MenuUsuario {
 
         boolean ehAmigo = this.usuario.getAmigos().contains(usuario);
 
-        int opcao = LerEntrada.lerEntradaInteira(CoresConsole.aviso("1. " + (ehAmigo ? "Remover amizade" : "Adicionar Amizade") + "\n2. Voltar \nEscolha uma opção: "));
+        int opcao = LerEntrada.lerEntradaInteira(CoresConsole.aviso("1. " + (ehAmigo ? "Remover amizade" : "Enviar Solicitação de amizade") + "\n2. Voltar \nEscolha uma opção: "));
         if(opcao == 1){
             if(!ehAmigo){
-                gerenciadorUsuarios.adicionarAmizade(this.usuario.getId(), usuario.getId());
+                gerenciadorUsuarios.enviarSolicitacaoAmizade(this.usuario.getId(), usuario.getId());
             }else{
                 gerenciadorUsuarios.removerAmizade(this.usuario.getId(), usuario.getId());
             }
@@ -99,52 +99,79 @@ public class MenuUsuario {
     private void exibirUsuariosEncontrados(List<Usuario> usuarios){
         usuarios.forEach(usuario1 -> System.out.println("Nome: " + usuario1.getNome() + " Username: " + usuario1.getUsername()));
     }
-    private void gerenciarAmizades(){
+    private void gerenciarAmizades() {
         System.out.println(CoresConsole.titulo("=== Gerenciar Amizades ==="));
         boolean continuar = true;
-        while(continuar){
-            int opcao = LerEntrada.lerEntradaInteira(CoresConsole.info("1. Adicionar novo amigo \n2. Remover amigo \n3. Ver amigos \n4. Voltar \nEscolha uma opção: "));
-            switch (opcao){
-                case 1 -> adicionarAmigo();
-                case 2 -> removerAmigo();
+
+        while (continuar) {
+            int opcao = LerEntrada.lerEntradaInteira(CoresConsole.info(
+                      "1. Enviar solicitação\n" +
+                            "2. Ver solicitações pendentes\n" +
+                            "3. Ver amigos\n" +
+                            "4. Voltar\nEscolha uma opção: "
+            ));
+
+            switch (opcao) {
+                case 1 -> enviarSolicitacaoAmizade();
+                case 2 -> gerenciarSolicitacoesPendentes();
                 case 3 -> verAmigos();
                 case 4 -> continuar = false;
+                default -> System.out.println(CoresConsole.aviso("Opção inválida!"));
             }
         }
     }
-    private void adicionarAmigo(){
-        System.out.println(CoresConsole.titulo("=== Adicionar Amigo ==="));
-        boolean continuar = true;
-        while (continuar){
-            try{
-                String username = LerEntrada.lerEntradaString(CoresConsole.info("Digite o username do usuário a ser adicionado: "));
-                if (!username.equals("0")) {
-                    gerenciadorUsuarios.adicionarAmizade(usuario.getId(), gerenciadorUsuarios.buscarPorUsername(username).getId());
-                    System.out.println(CoresConsole.sucesso("Amigo adicionado com sucesso!"));
-                }
-                continuar = false;
+    private void enviarSolicitacaoAmizade() {
+        try {
+            System.out.println(CoresConsole.titulo("=== Enviar Solicitação ==="));
+            String username = LerEntrada.lerEntradaString(CoresConsole.info("Digite o username do usuário: "));
+            Usuario destinatario = gerenciadorUsuarios.buscarPorUsername(username);
 
-            }catch (Exception e){
-                System.out.println(CoresConsole.aviso("Usuário não encontrado. Tente novamente ou digite 0 para voltar"));
+            if (destinatario == null) {
+                System.out.println(CoresConsole.erro("Usuário não encontrado."));
+            } else if (usuario.getAmigos().contains(destinatario)) {
+                System.out.println(CoresConsole.aviso("Você já é amigo deste usuário."));
+            } else {
+                gerenciadorUsuarios.enviarSolicitacaoAmizade(usuario.getId(), destinatario.getId());
             }
+        } catch (Exception e) {
+            System.out.println(CoresConsole.erro(e.getMessage()));
         }
     }
-    private void removerAmigo(){
-        System.out.println(CoresConsole.titulo("=== Remover Amigo ===="));
-        boolean continuar = true;
-        while(continuar){
-            try{
-                String username = LerEntrada.lerEntradaString(CoresConsole.info("Digite o username do usuário a ser removido: "));
-                if(!username.equals("0")){
-                    gerenciadorUsuarios.removerAmizade(usuario.getId(), gerenciadorUsuarios.buscarPorUsername(username).getId());
-                    System.out.println(CoresConsole.sucesso("Amigo removido com sucesso"));
+
+    private void gerenciarSolicitacoesPendentes() {
+        System.out.println(CoresConsole.titulo("=== Solicitações de Amizade ==="));
+
+        if (usuario.getSolicitacoesPendentes().isEmpty()) {
+            System.out.println(CoresConsole.aviso("Você não tem solicitações pendentes."));
+            return;
+        }
+
+        exibirUsuariosEncontrados(usuario.getSolicitacoesPendentes());
+        String username = LerEntrada.lerEntradaString(CoresConsole.info(
+                "Digite o username para aceitar/recusar ou digite 0 para voltar: "
+        ));
+
+        if (!username.equals("0")) {
+            try {
+                Usuario remetente = gerenciadorUsuarios.buscarPorUsername(username);
+
+                int opcao = LerEntrada.lerEntradaInteira(CoresConsole.info(
+                        "1. Aceitar\n2. Recusar\nEscolha uma opção: "
+                ));
+
+                if (opcao == 1) {
+                    gerenciadorUsuarios.adicionarAmizade(usuario.getId(), remetente.getId());
+                } else if (opcao == 2) {
+                    gerenciadorUsuarios.recusarSolicitacaoAmizade(usuario.getId(), remetente.getId());
+                } else {
+                    System.out.println(CoresConsole.aviso("Opção inválida!"));
                 }
-                continuar = false;
-            }catch (Exception e){
-                System.out.println(CoresConsole.aviso("Usuário não encontrado. Tente novamente ou digite 0 para voltar"));
+            } catch (Exception e) {
+                System.out.println(CoresConsole.erro(e.getMessage()));
             }
         }
     }
+
     private void verAmigos(){
         System.out.println(CoresConsole.titulo("=== Seus amigos ==="));
         if(usuario.getAmigos().isEmpty()){
@@ -264,10 +291,11 @@ public class MenuUsuario {
            }
        }
     }
-    private void interagirPost(int id){
+    private void interagirPost(int id) throws InterruptedException {
        boolean continuar = true;
 
        while(continuar){
+           Thread.sleep(2000);
            System.out.println(CoresConsole.titulo("=== Detalhes do post ==="));
            Post post = gerenciadorPosts.buscarPorId(id);
            System.out.println("Autor: " + post.getAutor().getUsername());
