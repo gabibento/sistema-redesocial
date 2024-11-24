@@ -5,14 +5,26 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa uma publicação (post) na rede social.
+ * Um post possui um autor, conteúdo textual, data de publicação,
+ * lista de curtidas e comentários associados.
+ */
 public class Post {
-    private Integer id;
-    private Usuario autor;
-    private String conteudo;
-    private LocalDateTime dataPublicacao;
-    private List<Usuario> curtidas;
-    private List<Comentario> comentarios;
+    private Integer id; // Identificador único do post
+    private Usuario autor; // Usuário autor do post
+    private String conteudo; // Conteúdo textual do post
+    private LocalDateTime dataPublicacao; // Data e hora da publicação
+    private List<Usuario> curtidas; // Lista de usuários que curtiram o post
+    private List<Comentario> comentarios; // Lista de comentários no post
 
+    /**
+     * Construtor para criar um novo post.
+     * A data de publicação é definida como o momento atual.
+     *
+     * @param autor    O autor do post.
+     * @param conteudo O conteúdo textual do post.
+     */
     public Post(Usuario autor, String conteudo) {
         this.autor = autor;
         this.conteudo = conteudo;
@@ -21,20 +33,41 @@ public class Post {
         this.comentarios = new ArrayList<>();
     }
 
-    public void adicionarCurtida(Usuario usuario){
-        if(!curtidas.contains(usuario)) {
+    /**
+     * Adiciona uma curtida ao post.
+     * Um usuário só pode curtir o post uma vez.
+     *
+     * @param usuario O usuário que curtiu o post.
+     */
+    public void adicionarCurtida(Usuario usuario) {
+        if (!curtidas.contains(usuario)) {
             curtidas.add(usuario);
         }
     }
-    public void removerCurtida(Usuario usuario){
+
+    /**
+     * Remove a curtida de um usuário no post.
+     *
+     * @param usuario O usuário que teve sua curtida removida.
+     */
+    public void removerCurtida(Usuario usuario) {
         curtidas.remove(usuario);
     }
-    public void adicionarComentario(Comentario comentario){
-        if(!comentarios.contains(comentario)){
+
+    /**
+     * Adiciona um comentário ao post.
+     *
+     * @param comentario O comentário a ser adicionado.
+     */
+    public void adicionarComentario(Comentario comentario) {
+        if (!comentarios.contains(comentario)) {
             comentarios.add(comentario);
         }
     }
 
+    /*
+    Getters e Setters
+     */
     public Integer getId() {
         return id;
     }
@@ -83,14 +116,20 @@ public class Post {
         this.comentarios = comentarios;
     }
 
+    /**
+     * Retorna uma representação textual detalhada do post.
+     * Inclui informações do autor, conteúdo, data de publicação,
+     * quantidade de curtidas e de comentários.
+     *
+     * @return Uma string formatada com os dados do post.
+     */
     @Override
     public String toString() {
-        return  "ID: " + id + "\n" +
+        return "ID: " + id + "\n" +
                 "Autor: " + autor.getNome() + " (" + autor.getUsername() + ")\n" +
                 "Conteúdo: " + conteudo + "\n" +
                 "Data de Publicação: " + dataPublicacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n" +
                 "Curtidas: " + (curtidas != null ? curtidas.size() : 0) +
                 "   Comentários: " + (comentarios != null ? comentarios.size() : 0) + "\n";
     }
-
 }
