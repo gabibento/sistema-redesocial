@@ -85,12 +85,11 @@ public class Post {
 
     @Override
     public String toString() {
-        return  "ID: " + id + "\n" +
-                "Autor: " + autor.getNome() + " (" + autor.getUsername() + ")\n" +
+        return  "Autor: " + autor.getNome() + " (" + autor.getUsername() + ")\n" +
                 "Conteúdo: " + conteudo + "\n" +
                 "Data de Publicação: " + dataPublicacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n" +
-                "Curtidas: " + (curtidas != null ? curtidas.size() : 0) + "\n" +
-                "Comentários: " + (comentarios != null ? comentarios.size() : 0) + "\n";
+                "Curtidas: " + (curtidas != null ? curtidas.size() : 0) +
+                "   Comentários: " + (comentarios != null ? comentarios.size() : 0) + "\n";
     }
 
 }

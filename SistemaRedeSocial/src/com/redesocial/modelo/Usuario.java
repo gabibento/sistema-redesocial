@@ -1,6 +1,7 @@
 package com.redesocial.modelo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -110,14 +111,13 @@ public class Usuario {
     @Override
     public String toString() {
         StringBuilder perfil = new StringBuilder();
-        perfil.append("Perfil do Usuário:\n");
-        perfil.append("=====================================\n");
+        perfil.append("=== Perfil ==== \n");
         perfil.append("Informações Básicas:\n");
         perfil.append("ID: ").append(id).append("\n");
         perfil.append("Nome: ").append(nome).append("\n");
         perfil.append("Username: ").append(username).append("\n");
         perfil.append("Email: ").append(email).append("\n");
-        perfil.append("Data de Cadastro: ").append(dataCadastro).append("\n");
+        perfil.append("Data de Cadastro: ").append(dataCadastro.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
         perfil.append("\n");
 
         perfil.append("Lista de Amigos:\n");
