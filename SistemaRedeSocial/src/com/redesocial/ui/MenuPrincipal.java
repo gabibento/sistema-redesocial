@@ -131,6 +131,10 @@ public class MenuPrincipal {
         if (email == null || !email.contains("@")) {
             throw new ValidacaoException("Email inválido.");
         }
+        if (gerenciadorUsuarios.listarUsuarios().stream()
+                .anyMatch(u -> u.getEmail().equals(email))) {
+            throw new ValidacaoException("Já há uma conta com este email");
+        }
     }
 
     private void validarSenha(String senha) {
