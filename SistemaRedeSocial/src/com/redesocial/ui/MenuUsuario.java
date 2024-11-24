@@ -210,6 +210,7 @@ public class MenuUsuario {
 
             List<Post> posts = gerenciadorPosts.listarPosts().stream()
                     .filter(post -> usuario.getAmigos().contains(post.getAutor()) || post.getAutor().equals(usuario))
+                    .sorted((p1, p2) -> p2.getDataPublicacao().compareTo(p1.getDataPublicacao()))
                     .toList();
 
             if(!posts.isEmpty()){
