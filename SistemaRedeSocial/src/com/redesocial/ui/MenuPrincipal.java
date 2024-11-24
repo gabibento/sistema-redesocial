@@ -6,6 +6,7 @@ import com.redesocial.exception.ValidacaoException;
 import com.redesocial.gerenciador.GerenciadorPosts;
 import com.redesocial.gerenciador.GerenciadorUsuarios;
 import com.redesocial.modelo.Usuario;
+import com.redesocial.utils.CoresConsole;
 import com.redesocial.utils.LerEntrada;
 import com.redesocial.utils.Validador;
 import org.mindrot.jbcrypt.BCrypt;
@@ -26,75 +27,52 @@ public class MenuPrincipal {
         boolean continuar = true;
 
         while(continuar){
-            System.out.println("=== Menu Principal ===");
+            System.out.println(CoresConsole.titulo("=== Menu Principal ==="));
             System.out.println("\n1. Cadastrar \n2. Fazer Login \n3. Sair");
 
-            int opcao = LerEntrada.lerEntradaInteira("Escolha uma opção: ");
+            int opcao = LerEntrada.lerEntradaInteira(CoresConsole.info("Escolha uma opção: "));
 
             switch (opcao){
                 case 1 -> cadastrarUsuario();
                 case 2 -> fazerLogin();
                 case 3 -> continuar = false;
-                default -> System.out.println("Opção inválida");
+                default -> System.out.println(CoresConsole.aviso("Opção inválida"));
             }
         }
 
     }
 
     private void cadastrarUsuario() {
+        System.out.println(CoresConsole.titulo("=== Cadastrar ==="));
+
         String nome = obterEntradaValida("Digite seu nome: ", this::validarNome);
         String username = obterEntradaValida("Digite seu username: ", this::validarUsername);
         String email = obterEntradaValida("Digite seu email: ", this::validarEmail);
-        String senha = obterEntradaValidaSenha("Digite sua senha: ", this::validarSenha);
+        String senha = obterEntradaValida("Digite sua senha: ", this::validarSenha);
 
         Usuario usuario = new Usuario(nome, username, email, BCrypt.hashpw(senha, BCrypt.gensalt()));
         try {
             gerenciadorUsuarios.cadastrar(usuario);
-            System.out.println("Usuário cadastrado com sucesso!");
+            System.out.println(CoresConsole.sucesso("Usuário cadastrado com sucesso!"));
             exibirMenuLogado(usuario);
         } catch (Exception e) {
-            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+            System.out.println(CoresConsole.erro("Erro ao cadastrar usuário: " + e.getMessage()));
         }
-    }private String obterEntradaValida(String mensagem, Validador<String> validador) {
+    }
+    private String obterEntradaValida(String mensagem, Validador<String> validador) {
         while (true) {
             try {
                 String entrada = LerEntrada.lerEntradaString(mensagem);
                 validador.validar(entrada);
                 return entrada;
             } catch (ValidacaoException e) {
-                System.out.println("Erro: " + e.getMessage());
+                System.out.println(CoresConsole.erro("Erro: " + e.getMessage()));
             }
-        }
-    }
-
-    private String obterEntradaValidaSenha(String mensagem, Validador<String> validador) {
-        // Usando JPasswordField para exibir * ao digitar a senha
-        JPasswordField passwordField = new JPasswordField(20); // Defina o tamanho do campo
-        Object[] message = {
-                mensagem, passwordField
-        };
-
-        // Mostra o painel de senha
-        int option = JOptionPane.showConfirmDialog(null, message, "Cadastro de Senha", JOptionPane.OK_CANCEL_OPTION);
-
-        // Se o usuário clicar em OK
-        if (option == JOptionPane.OK_OPTION) {
-            char[] senhaArray = passwordField.getPassword(); // Captura a senha digitada
-            String senha = new String(senhaArray); // Converte para String
-
-            try {
-                validador.validar(senha); // Valida a senha
-                return senha;
-            } catch (ValidacaoException e) {
-                System.out.println("Erro: " + e.getMessage());
-                return obterEntradaValidaSenha(mensagem, validador); // Repetir se a senha for inválida
-            }
-        } else {
-            return null; // Se o usuário cancelar
         }
     }
 
     private void fazerLogin(){
+        System.out.println(CoresConsole.titulo("=== Login ==="));
         boolean logado = false;
         while(!logado){
             try{
@@ -104,8 +82,8 @@ public class MenuPrincipal {
                 logado = true;
                 exibirMenuLogado(usuario);
             } catch (Exception e){
-                System.out.println(e.getMessage());
-                int opcao = LerEntrada.lerEntradaInteira("1. Tentar novamente \n2. Voltar \nEscolha uma opção: ");
+                System.out.println(CoresConsole.erro(e.getMessage()));
+                int opcao = LerEntrada.lerEntradaInteira(CoresConsole.info("1. Tentar novamente \n2. Voltar \nEscolha uma opção: "));
 
                 if(opcao == 2){
                     logado = true;
