@@ -22,17 +22,19 @@ public class MenuUsuario {
         this.gerenciadorUsuarios = gerenciadorUsuarios;
         this.gerenciadorPosts = gerenciadorPosts;
     }
-    public void exibirMenu(){
+    public void exibirMenu() throws InterruptedException {
        boolean continuar = true;
 
        while(continuar){
+           Thread.sleep(2000);
            System.out.println("=== Menu ===");
            System.out.println("1. Criar Post");
            System.out.println("2. Ver Meu Perfil");
            System.out.println("3. Buscar Usuários");
            System.out.println("4. Gerenciar Amizades");
            System.out.println("5. Ver Feed de Notícias");
-           System.out.println("6. Logout");
+           System.out.println("6. Ver posts por usuário");
+           System.out.println("7. Logout");
            int opcao = LerEntrada.lerEntradaInteira(CoresConsole.info("Escolha uma opção: "));
 
 
@@ -42,7 +44,8 @@ public class MenuUsuario {
                case 3 -> buscarUsuarios();
                case 4 -> gerenciarAmizades();
                case 5 -> verFeedNoticias();
-               case 6 -> continuar = false;
+               case 6 -> listarPorUsuario();
+               case 7 -> continuar = false;
                default ->  System.out.println(CoresConsole.erro("Opção inválida"));
            }
            if(usuario == null){
@@ -236,6 +239,30 @@ public class MenuUsuario {
         }catch (Exception e){
             System.out.println(CoresConsole.erro(e.getMessage()));
         }
+    }
+    private void listarPorUsuario(){
+       while(true){
+           try{
+               String username = LerEntrada.lerEntradaString(CoresConsole.info("Username do usuário: "));
+               if(!username.equals("0")){
+                   Usuario usuario = gerenciadorUsuarios.buscarPorUsername(username);
+                   if(usuario != null){
+                       List<Post> posts = gerenciadorPosts.listarPorUsuario(usuario.getId());
+                       if(!posts.isEmpty()){
+                           System.out.println(posts);
+                       }else{
+                           System.out.println(CoresConsole.aviso("Este usuário não possui posts"));
+                       }
+                   }else{
+                       throw new UsuarioException("Username inválido");
+                   }
+               }
+               break;
+           }catch (Exception e){
+               System.out.println(CoresConsole.erro(e.getMessage()));
+               System.out.println(CoresConsole.aviso("Tente novamente ou digite 0 para voltar"));
+           }
+       }
     }
     private void interagirPost(int id){
        boolean continuar = true;

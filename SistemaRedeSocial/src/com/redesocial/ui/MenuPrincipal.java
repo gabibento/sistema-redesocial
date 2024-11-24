@@ -92,7 +92,7 @@ public class MenuPrincipal {
         }
 
     }
-    private void exibirMenuLogado(Usuario usuario){
+    private void exibirMenuLogado(Usuario usuario) throws InterruptedException {
         MenuUsuario menu = new MenuUsuario(usuario, gerenciadorUsuarios, gerenciadorPosts);
         menu.exibirMenu();
     }
