@@ -93,11 +93,12 @@ public class MenuUsuario {
     private void gerenciarAmizades(){
         boolean continuar = true;
         while(continuar){
-            int opcao = LerEntrada.lerEntradaInteira("1. Adicionar novo amigo \n2. Remover amigo \n3. Voltar \nEscolha uma opção: ");
+            int opcao = LerEntrada.lerEntradaInteira("1. Adicionar novo amigo \n2. Remover amigo \n3. Ver amigos \n4. Voltar \nEscolha uma opção: ");
             switch (opcao){
                 case 1 -> adicionarAmigo();
                 case 2 -> removerAmigo();
-                case 3 -> continuar = false;
+                case 3 -> verAmigos();
+                case 4 -> continuar = false;
             }
         }
     }
@@ -129,9 +130,15 @@ public class MenuUsuario {
                     gerenciadorUsuarios.removerAmizade(usuario.getId(), gerenciadorUsuarios.buscarPorUsername(username).getId());
                 }
             }catch (Exception e){
-                System.out.println(e.getMessage());
                 System.out.println("Usuário não encontrado. Tente novamente ou digite 0 para voltar");
             }
+        }
+    }
+    private void verAmigos(){
+        if(usuario.getAmigos().isEmpty()){
+            System.out.println("Nenhum amigo adicionado");
+        }else{
+            exibirUsuariosEncontrados(usuario.getAmigos());
         }
     }
     private void editarPerfil(){
