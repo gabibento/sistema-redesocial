@@ -1,5 +1,6 @@
 package com.redesocial.ui;
 
+import com.redesocial.exception.PostException;
 import com.redesocial.exception.UsuarioException;
 import com.redesocial.gerenciador.GerenciadorPosts;
 import com.redesocial.gerenciador.GerenciadorUsuarios;
@@ -64,11 +65,12 @@ public class MenuUsuario {
     private void verPerfil(){
         System.out.println("=== Meu Perfil ===");
         System.out.println(usuario);
-        int opcao = LerEntrada.lerEntradaInteira("1. Editar perfil \n2. Excluir conta \n3. Voltar \nEscolha uma opção: ");
+        int opcao = LerEntrada.lerEntradaInteira("1. Editar perfil \n2. Excluir conta \n3. Excluir post \n4. Voltar \nEscolha uma opção: ");
 
         switch (opcao){
             case 1 -> editarPerfil();
             case 2 -> excluirConta();
+            case 3 -> excluirPost();
         }
 
     }
@@ -295,6 +297,24 @@ public class MenuUsuario {
         } else {
             System.out.println("Operação cancelada.");
         }
+    }
+    private void excluirPost(){
+      try{
+          int id = LerEntrada.lerEntradaInteira("Escolha o id do post a ser excluído: ");
+          Post post = gerenciadorPosts.buscarPorId(id);
+          if(usuario.getPosts().contains(post)){
+              if(gerenciadorPosts.deletar(id)){
+                  usuario.getPosts().remove(post);
+                  System.out.println("Post excluído com sucesso!");
+              }else{
+                  throw new PostException("Erro ao excluir post");
+              }
+          }else{
+              System.out.println("ID inválido");
+          }
+      }catch (Exception e){
+          System.out.println(e.getMessage());
+      }
     }
 
 
