@@ -6,22 +6,41 @@ Este projeto é uma rede social simples desenvolvida em Java, onde usuários pod
 
 Os dados dos usuários, posts, curtidas e comentários são armazenados em listas na memória, permitindo um gerenciamento rápido e simples durante a execução. O sistema conta com classes específicas para gerenciar usuários e posts, além de validações e tratamento de erros para garantir a consistência das informações.
 
+## Funcionalidades
+
+O sistema oferece as seguintes funcionalidades:
+
+1. **Cadastrar Usuário**: Permite que novos usuários se registrem no sistema com nome, username, email e senha criptografada.
+2. **Fazer Login**: Usuários podem acessar suas contas utilizando username e senha.
+3. **Criar Post**: Usuários podem criar posts com conteúdo no sistema.
+4. **Curtir Post**: Permite que usuários curtam publicações.
+5. **Descurtir Post**: Usuários podem descurtir posts previamente curtidos.
+6. **Comentar Post**: Usuários podem comentar em posts.
+7. **Gerenciar Amizades**: Enviar solicitações de amizade, aceitar ou recusar solicitações, e remover amigos.
+8. **Editar Perfil**: Usuários podem atualizar seus dados de perfil, como nome, email, username e senha.
+9. **Excluir Conta**: Usuários podem excluir suas contas do sistema.
+10. **Ver Feed de Notícias**: Exibe o feed de posts do usuário e de seus amigos.
+11. **Buscar Usuários**: Permite buscar outros usuários por nome ou username.
+12. **Ver Perfil de Outro Usuário**: Exibe o perfil de outros usuários, com opções de adicionar/remover amizade.
+13. **Sair**: Finaliza a execução do programa.
+
 ## Instruções de Execução Passo a Passo
-1. Clonar o repositório
-Primeiro, clone o repositório para sua máquina local:
+1. **Importar o Projeto para sua IDE**:
+   - **IntelliJ IDEA**:
+     1. Abra o IntelliJ IDEA.
+     2. Clique em `File` -> `Open...` e selecione a pasta `RedeSocial`.
+   - **Eclipse**:
+     1. Abra o Eclipse.
+     2. Clique em `File` -> `Import...` -> `Existing Projects into Workspace` e selecione a pasta `RedeSocial`.
 
-```bash
-git clone https://github.com/gabibento/sistema-redesocial.git
-```
-2. Importar no IntelliJ IDEA ou outro IDE
-Abra o IntelliJ IDEA (ou outro IDE de sua preferência) e importe o projeto.
+2. **Configurar o JDK**:
+   - Certifique-se de ter o **JDK 11 ou superior** instalado.
+   - Configure o JDK na sua IDE:
+     - **IntelliJ IDEA**: `File` -> `Project Structure` -> `Project` -> Selecione o JDK.
+     - **Eclipse**: `Window` -> `Preferences` -> `Java` -> `Installed JREs` -> Selecione o JDK.
 
-3. Instalar Dependências
-Certifique-se de ter o Java corretamente configurado em sua máquina. O projeto usa Java 17 ou superior. Para compilar e rodar o projeto, você deve ter o JDK instalado em seu ambiente.
-
-4. Executar o Programa
-Para rodar o programa, basta executar a classe Main
-No IntelliJ, você pode clicar com o botão direito na classe Main e selecionar "Run".
+3. **Rodar o Projeto**:
+   - No arquivo `Main.java` (`src/com/redesocial/Main.java`), clique com o botão direito e selecione **Run 'Main'**.
 
 ## Exemplos de Uso
 1. Cadastro de um novo usuário
