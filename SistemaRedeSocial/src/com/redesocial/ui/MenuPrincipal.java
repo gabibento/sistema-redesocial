@@ -9,7 +9,6 @@ import com.redesocial.modelo.Usuario;
 import com.redesocial.utils.CoresConsole;
 import com.redesocial.utils.LerEntrada;
 import com.redesocial.utils.Validador;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Optional;
 
@@ -65,7 +64,7 @@ public class MenuPrincipal {
         String email = obterEntradaValida("Digite seu email: ", this::validarEmail);
         String senha = obterEntradaValida("Digite sua senha: ", this::validarSenha);
 
-        Usuario usuario = new Usuario(nome, username, email, BCrypt.hashpw(senha, BCrypt.gensalt()));
+        Usuario usuario = new Usuario(nome, username, email, senha);
         try {
             gerenciadorUsuarios.cadastrar(usuario);
             System.out.println(CoresConsole.sucesso("Usuário cadastrado com sucesso!"));
@@ -146,7 +145,8 @@ public class MenuPrincipal {
             if (usuarioEncontrado.isEmpty()) {
                 throw new AutenticacaoException("Usuário com username " + username + " não existe");
             }
-            if (!BCrypt.checkpw(senha, usuarioEncontrado.get().getSenha())) {
+
+            if (!usuarioEncontrado.get().getSenha().equals(senha)) {
                 throw new AutenticacaoException("Senha incorreta");
             }
             return usuarioEncontrado.get();
