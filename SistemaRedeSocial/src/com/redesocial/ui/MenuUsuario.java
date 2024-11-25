@@ -12,16 +12,33 @@ import com.redesocial.utils.LerEntrada;
 
 import java.util.List;
 
+/**
+ * Classe responsável por gerenciar o menu do usuário logado.
+ * Permite realizar diversas operações, como criar posts, gerenciar amizades,
+ * visualizar posts de outros usuários, e editar ou excluir informações.
+ */
 public class MenuUsuario {
-    private Usuario usuario;
-    private final GerenciadorPosts gerenciadorPosts;
-    private final GerenciadorUsuarios gerenciadorUsuarios;
+    private Usuario usuario; // Usuário atualmente logado
+    private final GerenciadorPosts gerenciadorPosts; // Gerenciador de posts
+    private final GerenciadorUsuarios gerenciadorUsuarios; // Gerenciador de usuários
 
+    /**
+     * Construtor da classe MenuUsuario.
+     *
+     * @param usuario            O usuário logado.
+     * @param gerenciadorUsuarios O gerenciador responsável pelos usuários.
+     * @param gerenciadorPosts    O gerenciador responsável pelos posts.
+     */
     public MenuUsuario(Usuario usuario, GerenciadorUsuarios gerenciadorUsuarios, GerenciadorPosts gerenciadorPosts) {
         this.usuario = usuario;
         this.gerenciadorUsuarios = gerenciadorUsuarios;
         this.gerenciadorPosts = gerenciadorPosts;
     }
+    /**
+     * Exibe o menu principal com as opções disponíveis para o usuário logado.
+     *
+     * @throws InterruptedException Se houver interrupção na execução.
+     */
     public void exibirMenu() throws InterruptedException {
        boolean continuar = true;
 
@@ -53,6 +70,9 @@ public class MenuUsuario {
            }
        }
     }
+    /**
+     * Permite ao usuário criar um novo post.
+     */
     private void criarPost(){
        try{
            System.out.println(CoresConsole.titulo("=== Novo Post ==="));
@@ -66,6 +86,9 @@ public class MenuUsuario {
            System.out.println(CoresConsole.erro("Erro ao criar post: " + e.getMessage()));
        }
     }
+    /**
+     * Exibe o perfil do usuário logado e permite realizar ações como editar ou excluir o perfil e posts.
+     */
     private void verPerfil(){
         System.out.println(CoresConsole.titulo("=== Meu Perfil ==="));
         System.out.println(usuario);
@@ -80,6 +103,11 @@ public class MenuUsuario {
         }
 
     }
+    /**
+     * Exibe o perfil de outro usuário, permitindo enviar solicitação de amizade ou remover amizade existente.
+     *
+     * @param usuario O usuário cujo perfil será exibido.
+     */
     private void verOutroPerfil(Usuario usuario){
         System.out.println(CoresConsole.titulo("=== Perfil de " + usuario.getUsername() + " ==="));
 
@@ -96,9 +124,17 @@ public class MenuUsuario {
             }
         }
     }
+    /**
+     * Exibe uma lista de usuários encontrados.
+     *
+     * @param usuarios Lista de usuários a ser exibida.
+     */
     private void exibirUsuariosEncontrados(List<Usuario> usuarios){
         usuarios.forEach(usuario1 -> System.out.println("Nome: " + usuario1.getNome() + " Username: " + usuario1.getUsername()));
     }
+    /**
+     * Permite ao usuário gerenciar suas amizades, incluindo enviar solicitações, visualizar solicitações pendentes e ver amigos.
+     */
     private void gerenciarAmizades() {
         System.out.println(CoresConsole.titulo("=== Gerenciar Amizades ==="));
         boolean continuar = true;
@@ -120,6 +156,9 @@ public class MenuUsuario {
             }
         }
     }
+    /**
+     * Envia uma solicitação de amizade para outro usuário.
+     */
     private void enviarSolicitacaoAmizade() {
         try {
             System.out.println(CoresConsole.titulo("=== Enviar Solicitação ==="));
@@ -137,7 +176,9 @@ public class MenuUsuario {
             System.out.println(CoresConsole.erro(e.getMessage()));
         }
     }
-
+    /**
+     * Permite ao usuário gerenciar suas solicitações de amizade pendentes.
+     */
     private void gerenciarSolicitacoesPendentes() {
         System.out.println(CoresConsole.titulo("=== Solicitações de Amizade ==="));
 
@@ -171,7 +212,9 @@ public class MenuUsuario {
             }
         }
     }
-
+    /**
+     * Exibe a lista de amigos do usuário.
+     */
     private void verAmigos(){
         System.out.println(CoresConsole.titulo("=== Seus amigos ==="));
         if(usuario.getAmigos().isEmpty()){
@@ -180,6 +223,9 @@ public class MenuUsuario {
             exibirUsuariosEncontrados(usuario.getAmigos());
         }
     }
+    /**
+     * Permite ao usuário editar seu perfil.
+     */
     private void editarPerfil(){
         System.out.println(CoresConsole.titulo("=== Editar Perfil ==="));
         System.out.println(CoresConsole.info("Digite os novos dados (ou pressione ENTER para manter o valor atual):"));
@@ -203,16 +249,18 @@ public class MenuUsuario {
             }
         }
     }
+
+    /**
+     * Busca usuários com base no nome ou username
+     */
     private void buscarUsuarios() {
         System.out.println(CoresConsole.titulo("=== Busca de Usuários ==="));
         try {
             String busca = LerEntrada.lerEntradaString(CoresConsole.info("Digite um nome ou username: "));
 
-            // Busca de usuários
             List<Usuario> usuarios = gerenciadorUsuarios.buscarPorNome(busca);
             Usuario usuarioExato = gerenciadorUsuarios.buscarPorUsername(busca);
 
-            // Combina resultados de busca por nome e username (evita duplicação)
             if (usuarioExato != null && !usuarios.contains(usuarioExato)) {
                 usuarios.add(usuarioExato);
             }
@@ -222,11 +270,9 @@ public class MenuUsuario {
                 return;
             }
 
-            // Exibe a lista de usuários encontrados
             exibirUsuariosEncontrados(usuarios);
             String opcao = LerEntrada.lerEntradaString(CoresConsole.info("Escolha o username do usuário para ver o perfil ou digite 0 para voltar: "));
 
-            // Opção escolhida
             if (!opcao.equals("0")) {
                 Usuario usuarioSelecionado = gerenciadorUsuarios.buscarPorUsername(opcao);
                 if (usuarioSelecionado != null) {
@@ -242,6 +288,9 @@ public class MenuUsuario {
         }
     }
 
+    /**
+     * Exibe feed de notícias com os posts do usuário e de seus amigos
+     */
     private void verFeedNoticias(){
         try{
             System.out.println(CoresConsole.titulo("=== Feed de Notícias ==="));
@@ -267,6 +316,10 @@ public class MenuUsuario {
             System.out.println(CoresConsole.erro(e.getMessage()));
         }
     }
+
+    /**
+     * Lista post por usuário com base no username
+     */
     private void listarPorUsuario(){
        while(true){
            try{
@@ -291,6 +344,12 @@ public class MenuUsuario {
            }
        }
     }
+    /**
+     * Permite ao usuário interagir com um post, incluindo ver curtidas, comentários, curtir ou comentar.
+     *
+     * @param id O ID do post com o qual interagir.
+     * @throws InterruptedException Se houver interrupção na execução.
+     */
     private void interagirPost(int id) throws InterruptedException {
        boolean continuar = true;
 
@@ -329,10 +388,20 @@ public class MenuUsuario {
            }
        }
     }
+
+    /**
+     * Lista comentários de um post
+     * @param post post a ser exibido os comentários
+     */
     private void listarComentarios(Post post){
         System.out.println(CoresConsole.titulo("=== Comentarios ===="));
         post.getComentarios().forEach(System.out::println);
     }
+
+    /**
+     * Permite o usuário comentar em um post
+     * @param post post a ser comentado
+     */
     private void comentar(Post post){
         System.out.println(CoresConsole.titulo("=== Comentar ==="));
         try{
@@ -344,6 +413,10 @@ public class MenuUsuario {
             System.out.println(CoresConsole.erro(e.getMessage()));
         }
     }
+
+    /**
+     * Exclui conta do usuário
+     */
     private void excluirConta() {
         System.out.println(CoresConsole.titulo("=== Excluir Conta ==="));
         int opcao = LerEntrada.lerEntradaInteira(CoresConsole.aviso("Tem certeza que deseja excluir sua conta? (1 - Sim / 2 - Não): "));
@@ -364,6 +437,9 @@ public class MenuUsuario {
             System.out.println(CoresConsole.aviso("Operação cancelada."));
         }
     }
+    /**
+     * Exclui um post do usuário.
+     */
     private void excluirPost(){
         System.out.println(CoresConsole.titulo("=== Excluir Post ==="));
       try{
