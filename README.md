@@ -100,19 +100,16 @@ O projeto segue uma arquitetura organizada e modular, com as classes distribuíd
    
 - A interface Validador foi usada para aplicar validações em dados inseridos pelo usuário, como nome, username e senha. A utilização de uma interface funcional permite que a validação seja configurável e modular, facilitando a aplicação de diferentes regras de validação sem acoplar o código.
 
-4. Armazenamento Simples em Memória
+3. Armazenamento Simples em Memória
    
 - Os dados dos usuários, posts e comentários são armazenados em listas dentro da memória. Este foi um design simplificado, adequado para a atividade, da qual tem como objetivo a prática de manipulações com listas.
 
-6. Autenticação e Criptografia de Senha
-   
-- A autenticação é realizada verificando o nome de usuário e a senha do usuário. Para a segurança da senha, é utilizado o algoritmo de criptografia bcrypt, fornecido pela biblioteca BCrypt para garantir que as senhas armazenadas sejam seguras, evitando que sejam armazenadas em texto claro.
 
-8. Interatividade no Console com Cores
+. Interatividade no Console com Cores
    
 - O uso de cores no console, através da classe CoresConsole, foi implementado para melhorar a interação com o usuário e tornar a experiência mais agradável, destacando mensagens de erro, sucesso e outros tipos de informações.
 
-10. Validação e Tratamento de Exceções
+4. Validação e Tratamento de Exceções
     
 - O sistema utiliza exceções personalizadas para tratar erros de forma clara e precisa:
 
