@@ -66,16 +66,17 @@ O projeto segue uma arquitetura organizada e modular, com as classes distribuíd
 
 - Entidades:
    - Usuario: Armazena informações do usuário, como nome, email, amigos, posts e solicitações de amizade.
-Post: Representa publicações feitas pelos usuários, com recursos de curtidas e comentários.
-Comentario: Permite interação nos posts, armazenando o autor e conteúdo do comentário.
-Gerenciadores:
+   - Post: Representa publicações feitas pelos usuários, com recursos de curtidas e comentários.
+   - Comentario: Permite interação nos posts, armazenando o autor e conteúdo do comentário.
 
-GerenciadorUsuarios: Gerencia usuários, realizando operações como cadastro, login e gerência de amizades.
-GerenciadorPosts: Gerencia posts, permitindo ações como criar, curtir, descurtir e comentar.
-Menus:
+- Gerenciadores:
+   - GerenciadorUsuarios: Gerencia usuários, realizando operações como cadastro, login e gerência de amizades.
+   - GerenciadorPosts: Gerencia posts, permitindo ações como criar, curtir, descurtir e comentar.
 
-MenuPrincipal: Apresenta as opções de cadastro, login e acesso ao sistema.
-MenuUsuario: Exibe o menu após o login, permitindo interações como criação de posts e gerenciamento de amigos.
+- Menus:
+   - MenuPrincipal: Apresenta as opções de cadastro, login e acesso ao sistema.
+   - MenuUsuario: Exibe o menu após o login, permitindo interações como criação de posts e gerenciamento de amigos.
+
 2. Uso de Interfaces Funcionais
 A interface Validador foi usada para aplicar validações em dados inseridos pelo usuário, como nome, username e senha. A utilização de uma interface funcional permite que a validação seja configurável e modular, facilitando a aplicação de diferentes regras de validação sem acoplar o código.
 
