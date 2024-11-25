@@ -57,12 +57,14 @@ No IntelliJ, você pode clicar com o botão direito na classe Main e selecionar 
 1. Estrutura de Classes
    
 O projeto segue uma arquitetura organizada e modular, com as classes distribuídas em pacotes de acordo com suas responsabilidades.
+```
   com.redesocial/
      ├── modelo/ # Classes de modelo/entidades
      ├── gerenciador/ # Classes de gerenciamento de dados
      ├── ui/ # Interface com usuário (console)
      ├── util/ # Classes utilitárias
      └── exception/ # Exceções personalizadas
+```
 
 - Entidades:
    - Usuario: Armazena informações do usuário, como nome, email, amigos, posts e solicitações de amizade.
@@ -78,27 +80,32 @@ O projeto segue uma arquitetura organizada e modular, com as classes distribuíd
    - MenuUsuario: Exibe o menu após o login, permitindo interações como criação de posts e gerenciamento de amigos.
 
 2. Uso de Interfaces Funcionais
-A interface Validador foi usada para aplicar validações em dados inseridos pelo usuário, como nome, username e senha. A utilização de uma interface funcional permite que a validação seja configurável e modular, facilitando a aplicação de diferentes regras de validação sem acoplar o código.
+   
+- A interface Validador foi usada para aplicar validações em dados inseridos pelo usuário, como nome, username e senha. A utilização de uma interface funcional permite que a validação seja configurável e modular, facilitando a aplicação de diferentes regras de validação sem acoplar o código.
 
-3. Armazenamento Simples em Memória
-Os dados dos usuários, posts e comentários são armazenados em listas dentro da memória. Este foi um design simplificado, adequado para a atividade, da qual tem como objetivo a prática de manipulações com listas.
+4. Armazenamento Simples em Memória
+   
+- Os dados dos usuários, posts e comentários são armazenados em listas dentro da memória. Este foi um design simplificado, adequado para a atividade, da qual tem como objetivo a prática de manipulações com listas.
 
-4. Autenticação e Criptografia de Senha
-A autenticação é realizada verificando o nome de usuário e a senha do usuário. Para a segurança da senha, é utilizado o algoritmo de criptografia bcrypt, fornecido pela biblioteca BCrypt para garantir que as senhas armazenadas sejam seguras, evitando que sejam armazenadas em texto claro.
+6. Autenticação e Criptografia de Senha
+   
+- A autenticação é realizada verificando o nome de usuário e a senha do usuário. Para a segurança da senha, é utilizado o algoritmo de criptografia bcrypt, fornecido pela biblioteca BCrypt para garantir que as senhas armazenadas sejam seguras, evitando que sejam armazenadas em texto claro.
 
-5. Interatividade no Console com Cores
-O uso de cores no console, através da classe CoresConsole, foi implementado para melhorar a interação com o usuário e tornar a experiência mais agradável, destacando mensagens de erro, sucesso e outros tipos de informações.
+8. Interatividade no Console com Cores
+   
+- O uso de cores no console, através da classe CoresConsole, foi implementado para melhorar a interação com o usuário e tornar a experiência mais agradável, destacando mensagens de erro, sucesso e outros tipos de informações.
 
-6. Validação e Tratamento de Exceções
-O sistema utiliza exceções personalizadas para tratar erros de forma clara e precisa:
+10. Validação e Tratamento de Exceções
+    
+- O sistema utiliza exceções personalizadas para tratar erros de forma clara e precisa:
 
-`ValidacaoException`: Lançada quando os dados fornecidos pelo usuário são inválidos, como username já existente ou senha menor que 6 caracteres
+   - `ValidacaoException`: Lançada quando os dados fornecidos pelo usuário são inválidos, como username já existente ou senha menor que 6 caracteres
 
-`AutenticacaoException`: Usada em falhas de autenticação, como erro de username ou senha incorretos.
+   - `AutenticacaoException`: Usada em falhas de autenticação, como erro de username ou senha incorretos.
 
-`UsuarioException`: Relacionada a erros ao manipular usuários, como ao adicionar ou buscar um usuário.
+   - `UsuarioException`: Relacionada a erros ao manipular usuários, como ao adicionar ou buscar um usuário.
 
-`PostException`: Captura erros relacionados a posts, como falhas na criação ou na interação com posts.
+   - `PostException`: Captura erros relacionados a posts, como falhas na criação ou na interação com posts.
 
 ## Autor
 <div align="left">
