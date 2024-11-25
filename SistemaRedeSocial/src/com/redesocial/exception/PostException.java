@@ -13,9 +13,18 @@ public class PostException extends RuntimeException {
     /**
      * Construtor para criar uma exceção de post com uma mensagem de erro específica.
      *
-     * @param message A mensagem de erro que descreve o motivo do erro ao manipular o post.
+     * @param mensagem A mensagem de erro que descreve o motivo do erro ao manipular o post.
      */
-    public PostException(String message) {
-        super(message);
+    public PostException(String mensagem) {
+        super(mensagem);
+    }
+    /**
+     * Construtor para criar uma exceção de post com uma mensagem de erro específica e uma causa.
+     *
+     * @param mensagem A mensagem de erro que descreve o motivo do erro ao manipular o usuário.
+     * @param causa A causa original do erro (outra exceção).
+     */
+    public PostException(String mensagem, Throwable causa) {
+        super(mensagem, causa);
     }
 }
