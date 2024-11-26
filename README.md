@@ -1,6 +1,6 @@
 # Sistema de Rede Social
 
-Este projeto é uma rede social simples desenvolvida em Java, onde usuários podem criar contas, fazer login, criar posts, enviar e aceitar solicitações de amizade, curtir ou comentar publicações. Toda a interação acontece através de um menu no console, com destaque em cores para melhorar a experiência.
+Este projeto é uma aplicação em Java que simula uma rede social, onde os usuários podem registrar contas, fazer login, criar publicações, gerenciar amizades por meio de solicitações, curtir e comentar posts.
 
 Os dados dos usuários, posts, curtidas e comentários são armazenados em listas na memória, permitindo um gerenciamento rápido e simples durante a execução. O sistema conta com classes específicas para gerenciar usuários e posts, além de validações e tratamento de erros para garantir a consistência das informações.
 
