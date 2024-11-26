@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class Comentario {
 
     private Integer id; // Identificador único do comentário
+    private static Integer geradorId = 1;
     private Usuario autor; // Usuário que fez o comentário
     private String conteudo; // Conteúdo textual do comentário
     private LocalDateTime dataComentario; // Data e hora em que o comentário foi feito
@@ -25,6 +26,7 @@ public class Comentario {
      * @param post     O post ao qual o comentário está associado.
      */
     public Comentario(Usuario autor, String conteudo, Post post) {
+        id = geradorId++;
         this.autor = autor;
         this.conteudo = conteudo;
         this.dataComentario = LocalDateTime.now();
