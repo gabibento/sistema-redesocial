@@ -105,11 +105,11 @@ O projeto segue uma arquitetura organizada e modular, com as classes distribuíd
 - Os dados dos usuários, posts e comentários são armazenados em listas dentro da memória. Este foi um design simplificado, adequado para a atividade, da qual tem como objetivo a prática de manipulações com listas.
 
 
-. Interatividade no Console com Cores
+4. Interatividade no Console com Cores
    
 - O uso de cores no console, através da classe CoresConsole, foi implementado para melhorar a interação com o usuário e tornar a experiência mais agradável, destacando mensagens de erro, sucesso e outros tipos de informações.
 
-4. Validação e Tratamento de Exceções
+5. Validação e Tratamento de Exceções
     
 - O sistema utiliza exceções personalizadas para tratar erros de forma clara e precisa:
 
